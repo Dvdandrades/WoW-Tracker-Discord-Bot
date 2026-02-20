@@ -3,6 +3,7 @@ import time
 from unittest.mock import AsyncMock, patch
 from src.api_client import BlizzardAPIClient
 
+
 @pytest.mark.asyncio
 async def test_get_access_token():
     client = BlizzardAPIClient(client_id="test_id", client_secret="test_secret")
@@ -20,6 +21,7 @@ async def test_get_access_token():
         assert token == "test_token"
         assert client._access_token == "test_token"
         mock_post.assert_called_once()
+
 
 @pytest.mark.asyncio
 async def test_token_expiry():

@@ -2,9 +2,9 @@ import logging
 import discord
 from discord.ext import commands
 
-from config import TOKEN, BLIZZARD_CLIENT_ID, BLIZZARD_CLIENT_SECRET
-from commands import get_token_price
-from api_client import BlizzardAPIClient
+from src.config import TOKEN, BLIZZARD_CLIENT_ID, BLIZZARD_CLIENT_SECRET
+from src.commands import get_token_price
+from src.api_client import BlizzardAPIClient
 
 
 handler = logging.FileHandler(filename="discord.log", encoding="utf-8", mode="w")

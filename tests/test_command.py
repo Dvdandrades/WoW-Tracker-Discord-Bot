@@ -3,6 +3,7 @@ from unittest.mock import AsyncMock, patch
 
 from src.commands import get_token_price
 
+
 @pytest.mark.asyncio
 async def test_get_token_price():
     mock_client = AsyncMock()
