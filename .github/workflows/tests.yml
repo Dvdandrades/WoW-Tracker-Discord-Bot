@@ -23,4 +23,7 @@ jobs:
         run: uv run ruff check .
 
       - name: Run tests
+        env:
+          BLIZZARD_CLIENT_ID: "placeholder_id"
+          BLIZZARD_CLIENT_SECRET: "placeholder_secret"
         run: uv run pytest
