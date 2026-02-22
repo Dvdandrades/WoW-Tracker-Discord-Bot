@@ -41,3 +41,16 @@ class BlizzardAPIClient:
                     await asyncio.sleep(backoff * (2**attempt))
                 else:
                     print("All retry attempts failed.")
+
+    async def get_character_summary(self, realm_slug: str, character_name: str) -> dict:
+        access_token = await self.get_access_token()
+
+        url = f"https://eu.api.blizzard.com/profile/wow/character/{realm_slug.lower()}/{character_name.lower()}"
+        params = {"namespace": "profile-eu", "locale": "en_US"}
+        headers = {"Authorization": f"Bearer {access_token}"}
+
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url, params=params, headers=headers) as response:
+                if response.status == 200:
+                    return await response.json()
+                return None

@@ -1,7 +1,7 @@
 import pytest
 from unittest.mock import AsyncMock, patch
 
-from src.commands import get_token_price
+from src.commands import get_token_price, get_character_info
 
 
 @pytest.mark.asyncio
@@ -19,3 +19,24 @@ async def test_get_token_price():
         price = await get_token_price(mock_client)
 
         assert price == 100.0
+
+
+@pytest.mark.asyncio
+async def test_get_character_info():
+    mock_client = AsyncMock()
+    mock_client.get_character_summary.return_value = {
+        "name": "TestCharacter",
+        "level": 80,
+        "race": {"name": "Human"},
+        "character_class": {"name": "Warrior"},
+        "active_spec": {"name": "Arms"},
+        "equipped_item_level": 130,
+        "faction": {"name": "Alliance"},
+    }
+
+    character_data = "TestCharacter-TestRealm"
+    info = await get_character_info(mock_client, character_data)
+
+    assert info["name"] == "TestCharacter"
+    assert info["level"] == 80
+    assert info["class"] == "Warrior"
