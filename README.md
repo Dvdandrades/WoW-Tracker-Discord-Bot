@@ -55,6 +55,16 @@ Once the bot is online, go to your Discord server and type:
 
 The bot will fetch the latest price from the Blizzard API and respond with the current value in gold.
 
+## Testing
+
+This project uses `pytest` to ensure everything is working correctly. You can run the test suite to verify the API integration and bot logic.
+
+To run the tests, use the following command:
+
+```bash
+uv run pytest
+```
+
 ## Requirements
 
 - Python 3.12+ (Recommended).
