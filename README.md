@@ -6,6 +6,7 @@ A lightweight, asynchronous Discord bot built with `discord.py` to track the cur
 ## Features
 
 - Real-time Price Checks: Get the current gold value of a WoW Token using the `!token` command.
+- Character Inspector: Fetch detailed information about any character (Level, Class, iLvl, Race) using the `!pj` command.
 - Smart OAuth2 Management: Automatically handles Blizzard API authentication, including token caching and renewal before expiration.
 - Resilient Design: Features a built-in retry mechanism with exponential backoff for Blizzard API requests to handle temporary network issues.
 - Clean UI: Displays data in organized Discord Embeds for a professional look.
@@ -54,6 +55,10 @@ Once the bot is online, go to your Discord server and type:
 **!token**
 
 The bot will fetch the latest price from the Blizzard API and respond with the current value in gold.
+
+**!pj <Name>-<Realm>**
+
+The bot will fetch information for a specific character from the Blizzard API and respond with a character breakdown.
 
 ## Testing
 
