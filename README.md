@@ -56,7 +56,7 @@ Once the bot is online, go to your Discord server and type:
 
 The bot will fetch the latest price from the Blizzard API and respond with the current value in gold.
 
-**!pj Name-Realm**
+**!pj Name-Realm** (Example: !pj Arthas-Draenor)
 
 The bot will fetch information for a specific character from the Blizzard API and respond with a character breakdown.
 
