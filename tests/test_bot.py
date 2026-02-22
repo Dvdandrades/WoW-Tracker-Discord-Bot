@@ -17,4 +17,4 @@ async def test_token_command_embed():
         ctx.send.assert_called_once()
         args, kwargs = ctx.send.call_args
         assert isinstance(kwargs["embed"], discord.Embed)
-        assert "200,000 oro" in kwargs["embed"].description
+        assert "200,000 gold" in kwargs["embed"].description

@@ -4,7 +4,7 @@ import time
 
 
 class BlizzardAPIClient:
-    def __init__(self, client_id: str, client_secret: str):
+    def __init__(self, client_id: str, client_secret: str) -> None:
 
         if not client_id or not client_secret:
             raise ValueError(
@@ -17,7 +17,7 @@ class BlizzardAPIClient:
         self._access_token: str = None
         self._token_expiry: float = 0
 
-    async def get_access_token(self, retries=3, backoff=1) -> str:
+    async def get_access_token(self, retries: int = 3, backoff: float = 1) -> str:
         if self._access_token and time.time() < self._token_expiry:
             return self._access_token
         for attempt in range(retries):

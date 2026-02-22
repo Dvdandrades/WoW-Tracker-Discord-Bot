@@ -17,27 +17,27 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 
 
 @bot.event
-async def on_ready():
-    print(f"¡Bot conectado como {bot.user.name}!")
+async def on_ready() -> None:
+    print(f"Bot connected as {bot.user}")
 
 
 @bot.command()
-async def token(ctx):
+async def token(ctx: commands.Context) -> None:
     try:
         price = await get_token_price(blizzard_client)
         embed = discord.Embed(
-            title="Precio del Token de WoW",
-            description=f"El precio actual del token es: {price:,.0f} oro",
+            title="Wow Token Price",
+            description=f"Current price: {price:,.0f} gold",
             color=discord.Color.gold(),
         )
         await ctx.send(embed=embed)
     except Exception as e:
-        logging.error(f"Error en comando token: {e}")
-        await ctx.send("Error al obtener el precio del token.")
+        logging.error(f"Error fetching token price: {e}")
+        await ctx.send("Sorry, I couldn't fetch the token price at the moment.")
 
 
 if __name__ == "__main__":
     if not TOKEN:
-        print("No se encontró el token de Discord")
+        print("Discord token not found.")
     else:
         bot.run(TOKEN, log_handler=handler, log_level=logging.DEBUG)

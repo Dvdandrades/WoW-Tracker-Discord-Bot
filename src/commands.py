@@ -1,7 +1,7 @@
 import aiohttp
 
 
-async def get_token_price(blizzard_client) -> int:
+async def get_token_price(blizzard_client: object) -> int:
     access_token = await blizzard_client.get_access_token()
     url = "https://eu.api.blizzard.com/data/wow/token/index"
     params = {
