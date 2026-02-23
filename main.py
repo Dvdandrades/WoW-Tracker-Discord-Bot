@@ -9,11 +9,25 @@ from src.api_client import BlizzardAPIClient
 
 handler = logging.FileHandler(filename="discord.log", encoding="utf-8", mode="w")
 
-blizzard_client = BlizzardAPIClient(BLIZZARD_CLIENT_ID, BLIZZARD_CLIENT_SECRET)
 
-intents = discord.Intents.default()
-intents.message_content = True
-bot = commands.Bot(command_prefix="!", intents=intents)
+class WoWBot(commands.Bot):
+    def __init__(self):
+        intents = discord.Intents.default()
+        intents.message_content = True
+        super().__init__(command_prefix="!", intents=intents)
+        self.blizzard_client = BlizzardAPIClient(
+            BLIZZARD_CLIENT_ID, BLIZZARD_CLIENT_SECRET
+        )
+
+    async def setup_hook(self):
+        await self.blizzard_client.__aenter__()
+
+    async def close(self):
+        await self.blizzard_client.__aexit__(None, None, None)
+        await super().close()
+
+
+bot = WoWBot()
 
 
 @bot.event
@@ -24,7 +38,7 @@ async def on_ready() -> None:
 @bot.command()
 async def token(ctx: commands.Context) -> None:
     try:
-        price = await get_token_price(blizzard_client)
+        price = await get_token_price(bot.blizzard_client)
         embed = discord.Embed(
             title="Wow Token Price",
             description=f"Current price: {price:,.0f} gold",
@@ -40,20 +54,22 @@ async def token(ctx: commands.Context) -> None:
 async def pj(ctx: commands.Context, *, character_data: str) -> None:
     async with ctx.typing():
         try:
-            info = await get_character_info(blizzard_client, character_data)
+            info = await get_character_info(bot.blizzard_client, character_data)
 
             color = (
                 discord.Color.blue()
-                if info["faction"] == "Alliance"
+                if info.faction == "Alliance"
                 else discord.Color.red()
             )
-            embed = discord.Embed(title=f"{info['name']}", color=color)
-            embed.add_field(name="Level", value=info["level"], inline=False)
+            embed = discord.Embed(title=f"{info.name}", color=color)
+            embed.add_field(name="Level", value=info.level, inline=False)
             embed.add_field(
-                name="Class", value=f"{info['class']} - {info['spec']}", inline=False
+                name="Class",
+                value=f"{info.character_class} - {info.spec}",
+                inline=False,
             )
-            embed.add_field(name="Item Level", value=info["ilvl"], inline=False)
-            embed.add_field(name="Raza", value=info["race"], inline=False)
+            embed.add_field(name="Item Level", value=info.ilvl, inline=False)
+            embed.add_field(name="Race", value=info.race, inline=False)
 
             await ctx.send(embed=embed)
         except ValueError as e:
