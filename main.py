@@ -61,7 +61,12 @@ async def pj(ctx: commands.Context, *, character_data: str) -> None:
                 if info.faction == "Alliance"
                 else discord.Color.red()
             )
+
             embed = discord.Embed(title=f"{info.name}", color=color)
+
+            if info.image_url:
+                embed.set_thumbnail(url=info.image_url)
+
             embed.add_field(name="Level", value=info.level, inline=False)
             embed.add_field(
                 name="Class",
