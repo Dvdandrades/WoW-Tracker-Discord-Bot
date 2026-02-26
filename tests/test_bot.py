@@ -43,12 +43,14 @@ async def test_character_info_command_embed():
             spec="Arms",
             ilvl=130,
             faction="Alliance",
+            image_url="http://example.com/avatar.jpg",
         )
 
         await pj.callback(ctx, character_data=character_data)
 
         ctx.send.assert_called_once()
-        args, kwargs = ctx.send.call_args
+        _, kwargs = ctx.send.call_args
         assert isinstance(kwargs["embed"], discord.Embed)
         assert kwargs["embed"].title == "testCharacter"
         assert kwargs["embed"].color == discord.Color.blue()
+        assert kwargs["embed"].thumbnail.url == "http://example.com/avatar.jpg"
