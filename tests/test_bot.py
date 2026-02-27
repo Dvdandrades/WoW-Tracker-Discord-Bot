@@ -3,7 +3,6 @@ import discord
 from unittest.mock import AsyncMock, patch, MagicMock
 
 from main import token, pj
-from src.commands import CharacterInfo
 
 
 @pytest.mark.asyncio
@@ -35,16 +34,23 @@ async def test_character_info_command_embed():
     character_data = "name-realm"
 
     with patch("main.get_character_info", new_callable=AsyncMock) as mock_get_info:
-        mock_get_info.return_value = CharacterInfo(
-            name="testCharacter",
-            level=60,
-            race="Human",
-            character_class="Warrior",
-            spec="Arms",
-            ilvl=130,
-            faction="Alliance",
-            image_url="http://example.com/avatar.jpg",
-        )
+        mock_get_info.return_value = {
+            "name": "testCharacter",
+            "level": 60,
+            "race": "Human",
+            "character_class": "Warrior",
+            "spec": "Arms",
+            "ilvl": 130,
+            "faction": "Alliance",
+            "image_url": "http://example.com/avatar.jpg",
+            "stats": {
+                "health": 10000,
+                "crit": 5.2,
+                "haste": 4.8,
+                "mastery": 6.1,
+                "versatility": 3.9
+            }
+        }
 
         await pj.callback(ctx, character_data=character_data)
 

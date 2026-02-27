@@ -58,23 +58,33 @@ async def pj(ctx: commands.Context, *, character_data: str) -> None:
 
             color = (
                 discord.Color.blue()
-                if info.faction == "Alliance"
+                if info['faction'] == "Alliance"
                 else discord.Color.red()
             )
 
-            embed = discord.Embed(title=f"{info.name}", color=color)
+            embed = discord.Embed(title=f"{info['name']}", color=color)
 
-            if info.image_url:
-                embed.set_thumbnail(url=info.image_url)
+            if info['image_url']:
+                embed.set_thumbnail(url=info['image_url'])
 
-            embed.add_field(name="Level", value=info.level, inline=False)
+            embed.add_field(name="Level", value=info['level'], inline=False)
             embed.add_field(
                 name="Class",
-                value=f"{info.character_class} - {info.spec}",
+                value=f"{info['character_class']} - {info['spec']}",
                 inline=False,
             )
-            embed.add_field(name="Item Level", value=info.ilvl, inline=False)
-            embed.add_field(name="Race", value=info.race, inline=False)
+            embed.add_field(name="Item Level", value=info['ilvl'], inline=False)
+            embed.add_field(name="Race", value=info['race'], inline=False)
+
+            stats = info["stats"]
+            stats_text = (
+                f"Health: {stats['health']:,}\n"
+                f"Crit: {stats['crit']}\n"
+                f"Haste: {stats['haste']}\n"
+                f"Mastery: {stats['mastery']}\n"
+                f"Versatility: {stats['versatility']}"
+            )
+            embed.add_field(name="Stats", value=stats_text, inline=False)
 
             await ctx.send(embed=embed)
         except ValueError as e:
